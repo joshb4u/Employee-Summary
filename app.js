@@ -82,55 +82,55 @@ const nextTeamMember = [
 
 // Creating async function for awaiting prompts
 async function createTeam() {
-
+	
 	// Initialising team
 	const team = []
-
+	
 	// Beginning with Manager
 	let role = 'Manager'
-
+	
 	// Adding team members until user prompts 'All Done'
 	while (role != 'All Done') {
-
+		
 		// Getting info about employee
 		const employeeInfo = await inquirer.prompt(employeeQuestions);
-
+		
 		// Adding role specific information and creating team member
 		let specialInfo
 		let newTeamMember
-
+		
 		switch (role) {
-
+			
 			case 'Manager':
-				specialInfo = await inquirer.prompt(managerQuestions)
-				newTeamMember = new Manager(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.officeNumber)
-				break
-
+			specialInfo = await inquirer.prompt(managerQuestions)
+			newTeamMember = new Manager(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.officeNumber)
+			break
+			
 			case 'Engineer':
-				specialInfo = await inquirer.prompt(engineerQuestions)
-				newTeamMember = new Engineer(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.github)
-				break
-
+			specialInfo = await inquirer.prompt(engineerQuestions)
+			newTeamMember = new Engineer(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.github)
+			break
+			
 			case 'Intern':
-				specialInfo = await inquirer.prompt(internQuestions)
-				newTeamMember = new Intern(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.school)
-				break
-
+			specialInfo = await inquirer.prompt(internQuestions)
+			newTeamMember = new Intern(employeeInfo.name, employeeInfo.id, employeeInfo.email, specialInfo.school)
+			break
+			
 			default:
-				console.log('Error')
+			console.log('Error')
 		}
-
+		
 		// Adding next team member 
 		team.push(newTeamMember)
-
+		
 		// Setting role of next member
 		const nextMember = await inquirer.prompt(nextTeamMember)
 		role = nextMember.next
 	}
-
+	
 	// HTML rendering: team.html
 	const html = render(team)
-
+	
 	// Creating HTML file
 	fs.writeFile(outputPath, html, err => {
 		if (err) throw err;
@@ -139,4 +139,4 @@ async function createTeam() {
 }
 
 // Calling async function
-createTeam();
+createTeam()
